@@ -10,7 +10,7 @@ import re
 import os
 
 # Load and Clean Dataset
-data = pd.read_csv("auto-mpg.csv")
+data = pd.read_csv("auto-mpg[1].csv")
 
 # Fix missing values
 data['horsepower'] = data['horsepower'].replace('?', pd.NA)
