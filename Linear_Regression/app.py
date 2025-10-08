@@ -1,8 +1,6 @@
 
 # Auto MPG Chat Assistant (with km/L + Evaluation Metrics)
 
-! pip install gradio
-! pip install pandas scikit-learn matplotlib seaborn
 import gradio as gr
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -12,7 +10,7 @@ import re
 import os
 
 # Load and Clean Dataset
-data = pd.read_csv("/content/Auto-MPG-Linear-Regression-project/Linear_Regression/auto-mpg[1].csv")
+data = pd.read_csv("auto-mpg.csv")
 
 # Fix missing values
 data['horsepower'] = data['horsepower'].replace('?', pd.NA)
@@ -44,7 +42,8 @@ mse = mean_squared_error(y_test, y_pred)
 rmse = np.sqrt(mse)
 r2 = r2_score(y_test, y_pred)
 
-evaluation_summary = f"""Model Evaluation Summary
+evaluation_summary = f"""\
+Model Evaluation Summary
 
 R² Score (Explained Variance): **{r2:.3f}**
 MAE (Mean Absolute Error): **{mae:.3f}**
@@ -118,7 +117,6 @@ def respond(message, history):
         )
         return reply
 
-    import re
     try:
         manual_features_list = [float(x.strip()) for x in re.split(r'[,\s]+', message) if x.strip()]
         if len(manual_features_list) == len(required_features):
@@ -170,5 +168,5 @@ chatbot = gr.ChatInterface(
 )
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8500))
+    port = int(os.environ.get("PORT", 10000))  # Render uses 10000 by default
     chatbot.launch(server_name="0.0.0.0", server_port=port, share=False)
